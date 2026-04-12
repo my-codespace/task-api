@@ -21,6 +21,10 @@ app.get('/tasks', async (req, res) => {
     }
 });
 
+app.get('/status', (req, res) => {
+    res.json({ message: "My CI/CD pipeline is working perfectly!" });
+});
+
 app.get('/tasks/:id', async (req, res) => {
     try {
         // Just grab the raw string directly!
