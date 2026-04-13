@@ -4,10 +4,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
-app.use(cors());
 const Task = require('./models/Task');
+const bcrypt = require('bcrypt');
+const User = require('./models/User');
+
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('Connected to MongoDB')).catch(err => console.error('MongoDB connection error:', err.message));
 app.use(express.json());
+app.use(cors());
 const PORT = process.env.PORT|| 3000;
 
 
@@ -48,6 +51,19 @@ app.get('/tasks/:id', async (req, res) => {
 
 app.get('/', (req, res) => {
     res.send('Welcome to the TASK MANAGER API!');
+});
+
+app.post('/register', async (req, res) => {
+    try {
+        const  { username, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ username: username, password: hashedPasswrod });
+        await newUser.save();
+        res.status(201).json({ message: 'Directive Authorization created' });
+    }
+    catch (error) {
+        res.status(400).json({ error: 'Username may already exist' });
+    }
 });
 
 app.post('/tasks', async (req, res) => {
