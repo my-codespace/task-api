@@ -57,7 +57,7 @@ app.post('/register', async (req, res) => {
     try {
         const  { username, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ username: username, password: hashedPasswrod });
+        const newUser = new User({ username: username, password: hashedPassword });
         await newUser.save();
         res.status(201).json({ message: 'Directive Authorization created' });
     }
