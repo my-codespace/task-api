@@ -106,7 +106,7 @@ app.post('/login', async (req, res) => {
         res.json({ token: token });
     }
     catch (error) {
-        res.status(400).json({ error: 'Some Error occurred during login.' });
+        res.status(400).json({ error: `Some Error occurred during login ${error.message}` });
     }
 })
 
